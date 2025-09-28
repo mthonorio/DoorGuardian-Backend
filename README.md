@@ -1,16 +1,21 @@
-# DoorGuardian Backend API
+# 🚪 DoorGuardian API
 
-Uma API RESTful moderna desenvolvida em **FastAPI** para gerenciamento de acessos de portaria inteligente, com **Supabase** como backend de banco de dados e armazenamento.
+[![Python](https://img.shields.io/badge/Python-3.13+-blue.svg)](https://python.org)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.104+-green.svg)](https://fastapi.tiangolo.com)
+[![Supabase](https://img.shields.io/badge/Supabase-Database-orange.svg)](https://supabase.com)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-## 📋 Funcionalidades
+Uma API RESTful moderna e robusta para gerenciamento de controle de acesso de portas, desenvolvida com **FastAPI** e **Supabase**. O DoorGuardian permite registrar, monitorar e gerenciar eventos de acesso com suporte a upload de imagens e funcionalidades avançadas de filtragem.
 
-- **Registro de Acessos**: Registrar novos acessos com data, status e imagem opcional
-- **Histórico de Acessos**: Consultar histórico com paginação e filtros avançados
-- **Gerenciamento de Imagens**: Upload e armazenamento na nuvem via Supabase Storage
-- **Exclusão de Registros**: Remover registros específicos do histórico
-- **Documentação Interativa**: Swagger UI e ReDoc automaticamente gerados
-- **Validação de Dados**: Validação robusta com Pydantic
-- **Performance**: API assíncrona de alta performance com FastAPI
+## 🌟 Características
+
+- **API RESTful Completa**: Endpoints para criar, listar e gerenciar registros de acesso
+- **Upload de Imagens**: Suporte completo para upload e armazenamento de imagens de acesso
+- **Validação Robusta**: Validação de tipos de arquivo, tamanhos e conteúdo de imagens
+- **Filtragem Avançada**: Filtros por data, tipo de acesso e paginação
+- **Documentação Automática**: Interface Swagger/OpenAPI integrada
+- **Arquitetura Limpa**: Padrões de boas práticas com separação de responsabilidades
+- **Cloud-Native**: Integração completa com Supabase (Database + Storage)
 
 ## 🏗️ Arquitetura
 
@@ -19,91 +24,126 @@ O projeto segue as melhores práticas de desenvolvimento FastAPI com Supabase:
 ```
 DoorGuardian_backend/
 ├── app/
-│   ├── __init__.py
-│   ├── app_factory.py          # Factory pattern para criação da app FastAPI
-│   ├── config/
-│   │   ├── __init__.py
-│   │   ├── config.py           # Configurações com Pydantic Settings
-│   │   └── extensions.py       # Cliente Supabase
-│   ├── models/
-│   │   ├── __init__.py
-│   │   ├── access.py          # Modelos Pydantic para acesso
-│   │   └── image.py           # Modelos Pydantic para imagem
-│   ├── routes/
-│   │   ├── __init__.py
-│   │   └── access_routes.py   # Rotas FastAPI
-│   ├── services/
-│   │   ├── __init__.py
-│   │   └── database_service.py # Serviços de banco Supabase
-│   └── utils/
-│       ├── __init__.py
-│       └── file_utils.py      # Utilitários para upload
-├── database/
-│   └── schema.sql             # Schema SQL para Supabase
-├── app.py                     # Ponto de entrada da aplicação
-├── requirements.txt           # Dependências Python
-├── .env.example              # Exemplo de variáveis de ambiente
-├── .gitignore               # Arquivos ignorados pelo Git
-└── README.md                # Este arquivo
+│   ├── config/          # Configurações e extensões
+│   │   ├── config.py    # Settings com Pydantic
+│   │   └── extensions.py # Clients Supabase
+│   ├── models/          # Modelos Pydantic
+│   │   ├── access.py    # Modelos de acesso
+│   │   └── image.py     # Modelos de imagem
+│   ├── routes/          # Endpoints da API
+│   │   └── access_routes.py
+│   ├── services/        # Lógica de negócio
+│   │   ├── database_service.py # Serviços de banco
+│   │   └── image_service.py    # Serviços de imagem
+│   ├── utils/           # Utilitários
+│   │   └── file_utils.py # Manipulação de arquivos
+│   └── app_factory.py   # Factory da aplicação
+├── main.py              # Entry point
+├── requirements.txt     # Dependências
+├── .env.example        # Exemplo de configuração
+└── README.md           # Este arquivo
 ```
 
-## 🔧 Stack Tecnológica
-
-- **FastAPI**: Framework web moderno e de alta performance
-- **Supabase**: Backend-as-a-Service com PostgreSQL
-- **Pydantic**: Validação de dados e serialização
-- **Uvicorn**: Servidor ASGI para aplicações assíncronas
-- **Pillow**: Processamento de imagens
-- **PostgreSQL**: Banco de dados relacional (via Supabase)
-
-## 🚀 Instalação
+## � Início Rápido
 
 ### Pré-requisitos
 
-- Python 3.8+
-- Conta no Supabase (gratuita disponível)
-- pip (gerenciador de pacotes Python)
+- Python 3.13+
+- Conta no [Supabase](https://supabase.com)
+- Git
 
-### 1. Clone o repositório
+### 1. Clone o Repositório
 
 ```bash
-git clone <url-do-repositorio>
+git clone https://github.com/mthonorio/DoorGuardian-Backend.git
 cd DoorGuardian_backend
 ```
 
-### 2. Crie um ambiente virtual
+### 2. Configuração do Ambiente Virtual
 
 ```bash
+# Criar ambiente virtual
 python -m venv venv
-source venv/bin/activate  # Linux/Mac
-# ou
-venv\Scripts\activate  # Windows
+
+# Ativar ambiente virtual
+# Windows
+venv\Scripts\activate
+# Linux/Mac
+source venv/bin/activate
 ```
 
-### 3. Instale as dependências
+### 3. Instalar Dependências
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Configure o Supabase
+### 4. Configuração do Banco de Dados
 
-1. Acesse [supabase.com](https://supabase.com) e crie uma conta
-2. Crie um novo projeto
-3. Anote a **URL** e **anon key** do seu projeto
-4. Acesse o **SQL Editor** no painel do Supabase
-5. Execute o script `database/schema.sql` para criar as tabelas
-6. No **Storage**, crie um bucket chamado `images` e configure como público
+#### 4.1 Configurar Supabase
 
-### 5. Configure as variáveis de ambiente
+1. Crie um novo projeto no [Supabase Dashboard](https://supabase.com/dashboard)
+2. Vá em **Settings** → **API** e copie:
+   - Project URL
+   - Anon Key
+   - Service Role Key
 
-Copie o arquivo `.env.example` para `.env` e configure suas variáveis:
+#### 4.2 Executar Schema SQL
 
-```bash
-cp .env.example .env
+Execute o seguinte SQL no **SQL Editor** do Supabase:
+
+```sql
+-- Criar tabela de imagens
+CREATE TABLE IF NOT EXISTS images (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    filename VARCHAR(255) NOT NULL,
+    original_filename VARCHAR(255),
+    file_path VARCHAR(500) NOT NULL,
+    file_size INTEGER NOT NULL,
+    mime_type VARCHAR(100) NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Criar tabela de acessos
+CREATE TABLE IF NOT EXISTS access (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    access BOOLEAN NOT NULL,
+    date TIMESTAMP WITH TIME ZONE NOT NULL,
+    image_id UUID REFERENCES images(id) ON DELETE SET NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Criar índices para performance
+CREATE INDEX IF NOT EXISTS idx_access_date ON access(date DESC);
+CREATE INDEX IF NOT EXISTS idx_access_access ON access(access);
+CREATE INDEX IF NOT EXISTS idx_images_created_at ON images(created_at DESC);
+
+-- Criar bucket para imagens no Storage
+INSERT INTO storage.buckets (id, name, public)
+VALUES ('images', 'images', true)
+ON CONFLICT (id) DO NOTHING;
+
+-- Políticas de Storage (permite upload público temporariamente)
+CREATE POLICY "Allow public uploads" ON storage.objects
+    FOR INSERT WITH CHECK (bucket_id = 'images');
+
+CREATE POLICY "Allow public access" ON storage.objects
+    FOR SELECT USING (bucket_id = 'images');
 ```
 
-Edite o arquivo `.env`:
+### 5. Configuração das Variáveis de Ambiente
+
+```bash
+# Copiar arquivo de exemplo
+cp .env.example .env
+
+# Editar com suas credenciais
+nano .env
+```
+
+Exemplo do arquivo `.env`:
 
 ```env
 # FastAPI Environment
@@ -111,12 +151,12 @@ ENVIRONMENT=development
 DEBUG=True
 
 # Supabase Configuration
-SUPABASE_URL=https://your-project-ref.supabase.co
-SUPABASE_KEY=your-anon-public-key-here
-SUPABASE_SERVICE_ROLE_KEY=your-service-role-key-here
+SUPABASE_URL=https://seu-projeto.supabase.co
+SUPABASE_KEY=sua-anon-key-aqui
+SUPABASE_SERVICE_ROLE_KEY=sua-service-role-key-aqui
 
 # Application Configuration
-SECRET_KEY=your-secret-key-here
+SECRET_KEY=sua-chave-secreta-super-segura
 UPLOAD_FOLDER=uploads/images
 MAX_FILE_SIZE=16777216
 
@@ -126,292 +166,205 @@ PROJECT_NAME=DoorGuardian API
 VERSION=1.0.0
 ```
 
-### 6. Execute a aplicação
+### 6. Executar a Aplicação
 
 ```bash
 # Desenvolvimento
-uvicorn app:app --host 0.0.0.0 --port 8000 --reload
+uvicorn main:app --reload
 
-# Ou use os scripts de conveniência
-./run_dev.sh       # Linux/Mac
-run_dev.bat        # Windows
+# Produção
+uvicorn main:app --host 0.0.0.0 --port 8000
 ```
 
 A API estará disponível em:
 
-- **API**: `http://localhost:8000`
-- **Documentação Swagger**: `http://localhost:8000/docs`
-- **Documentação ReDoc**: `http://localhost:8000/redoc`
+- **Aplicação**: http://127.0.0.1:8000
+- **Documentação**: http://127.0.0.1:8000/docs
+- **OpenAPI Schema**: http://127.0.0.1:8000/openapi.json
 
-## 📚 API Endpoints
+## 📚 Documentação da API
 
-### Base URL
+### Endpoints Disponíveis
+
+#### 🏠 Health Check
 
 ```
-http://localhost:8000/api/v1
+GET /health
 ```
 
-### Documentação Interativa
+Verifica o status da aplicação.
 
-- **Swagger UI**: `http://localhost:8000/docs`
-- **ReDoc**: `http://localhost:8000/redoc`
+#### 📋 Listar Histórico de Acessos
 
-### 1. Obter Histórico de Acessos
+```
+GET /api/v1/history
+```
 
-**GET** `/history`
+**Parâmetros de Query:**
 
-Recupera o histórico de acessos com suporte a paginação e filtros.
-
-#### Parâmetros Query (opcionais):
-
-- `page` (int): Número da página (padrão: 1)
+- `page` (int): Página (padrão: 1)
 - `per_page` (int): Itens por página (padrão: 20, máx: 100)
-- `sort_by` (string): Campo para ordenação ('date' ou 'created_at', padrão: 'date')
-- `sort_order` (string): Ordem ('asc' ou 'desc', padrão: 'desc')
-- `access` (boolean): Filtrar por status de acesso (true/false)
-- `date_from` (ISO datetime): Filtrar a partir desta data
-- `date_to` (ISO datetime): Filtrar até esta data
+- `sort_by` (str): Campo para ordenação (padrão: "date")
+- `sort_order` (str): Ordem (asc/desc, padrão: "desc")
+- `access` (bool): Filtrar por tipo de acesso
+- `date_from` (datetime): Data início (ISO format)
+- `date_to` (datetime): Data fim (ISO format)
 
-#### Exemplo de Resposta:
+**Exemplo de Resposta:**
 
 ```json
 {
-  "access_records": [
+  "data": [
     {
       "id": "123e4567-e89b-12d3-a456-426614174000",
-      "date": "2023-12-07T10:30:00Z",
       "access": true,
-      "created_at": "2023-12-07T10:30:00Z",
-      "updated_at": "2023-12-07T10:30:00Z",
+      "date": "2023-12-07T10:30:00Z",
       "image": {
-        "id": "789e0123-e89b-12d3-a456-426614174001",
-        "filename": "uuid-generated-name.jpg",
-        "original_filename": "person.jpg",
-        "file_size": 1024567,
-        "mime_type": "image/jpeg"
+        "id": "456e7890-e89b-12d3-a456-426614174000",
+        "filename": "uuid-name.jpg",
+        "file_path": "access_images/uuid-name.jpg"
       }
     }
   ],
   "pagination": {
     "page": 1,
     "per_page": 20,
-    "total": 150,
-    "pages": 8,
-    "has_next": true,
-    "has_prev": false
+    "total": 1,
+    "pages": 1
   }
 }
 ```
 
-### 2. Registrar Acesso
-
-**POST** `/register`
-
-Registra um novo acesso no sistema.
-
-#### Content-Type:
-
-- `application/json` (sem imagem)
-- `multipart/form-data` (com imagem)
-
-#### Campos:
-
-- `access` (boolean, obrigatório): Status do acesso (true/false)
-- `date` (ISO datetime, opcional): Data do acesso (padrão: agora)
-- `image` (file, opcional): Arquivo de imagem (PNG, JPG, JPEG, GIF, WEBP)
-
-#### Exemplo JSON (sem imagem):
-
-```json
-{
-  "access": true,
-  "date": "2023-12-07T10:30:00Z"
-}
-```
-
-#### Exemplo com imagem (multipart/form-data):
+#### ➕ Registrar Novo Acesso
 
 ```
 POST /api/v1/register
-Content-Type: multipart/form-data
-
-access: true
-date: 2023-12-07T10:30:00Z
-image: [arquivo de imagem]
 ```
 
-#### Resposta de Sucesso:
+**Parâmetros (Form Data):**
+
+- `access` (boolean, obrigatório): Acesso concedido (true) ou negado (false)
+- `date` (datetime, opcional): Data do acesso (padrão: agora)
+- `image` (file, opcional): Arquivo de imagem (PNG, JPG, JPEG, GIF, WEBP)
+
+**Exemplo de Resposta:**
 
 ```json
 {
   "message": "Access record created successfully",
-  "access_record": {
+  "access": {
     "id": "123e4567-e89b-12d3-a456-426614174000",
-    "date": "2023-12-07T10:30:00Z",
     "access": true,
-    "created_at": "2023-12-07T10:30:00Z",
-    "updated_at": "2023-12-07T10:30:00Z",
-    "image": {
-      "id": "789e0123-e89b-12d3-a456-426614174001",
-      "filename": "uuid-generated-name.jpg",
-      "original_filename": "person.jpg"
-    }
+    "date": "2023-12-07T10:30:00Z",
+    "image_id": "456e7890-e89b-12d3-a456-426614174000"
   }
 }
 ```
 
-### 3. Deletar Acesso
+#### 🗑️ Deletar Registro de Acesso
 
-**DELETE** `/history/{id}`
-
-Remove um registro de acesso específico.
-
-#### Parâmetros:
-
-- `id` (string): ID do registro de acesso
-
-#### Resposta de Sucesso:
-
-```json
-{
-  "message": "Access record deleted successfully",
-  "deleted_id": "123e4567-e89b-12d3-a456-426614174000"
-}
+```
+DELETE /api/v1/history/{access_id}
 ```
 
-## 🔧 Endpoints Adicionais
+Remove um registro de acesso e sua imagem associada.
 
-### Health Check
+### Tipos de Arquivo Suportados
 
-**GET** `/health`
+- **Extensões**: `.jpg`, `.jpeg`, `.png`, `.gif`, `.webp`
+- **MIME Types**: `image/jpeg`, `image/png`, `image/gif`, `image/webp`
+- **Tamanho Máximo**: 16MB
 
-Verifica se a API está funcionando.
+## � Desenvolvimento
 
-### Informações da API
+### Estrutura do Projeto
 
-**GET** `/api/v1`
+- **Models**: Definições Pydantic para validação de dados
+- **Services**: Lógica de negócio e interação com banco de dados
+- **Routes**: Definição dos endpoints da API
+- **Utils**: Funções utilitárias (validação de arquivos, etc.)
+- **Config**: Configurações da aplicação
 
-Retorna informações sobre a API e endpoints disponíveis.
-
-## 📊 Modelos de Dados
-
-### Access (Acesso)
-
-- `id`: String UUID (Chave primária)
-- `date`: DateTime (Data/hora do acesso)
-- `access`: Boolean (Status do acesso - permitido/negado)
-- `image_id`: String UUID (Chave estrangeira para Image)
-- `created_at`: DateTime (Data de criação)
-- `updated_at`: DateTime (Data de atualização)
-
-### Image (Imagem)
-
-- `id`: String UUID (Chave primária)
-- `filename`: String (Nome do arquivo único)
-- `original_filename`: String (Nome original do arquivo)
-- `file_path`: String (Caminho do arquivo)
-- `file_size`: Integer (Tamanho em bytes)
-- `mime_type`: String (Tipo MIME)
-- `created_at`: DateTime (Data de criação)
-- `updated_at`: DateTime (Data de atualização)
-
-## ⚙️ Configuração
-
-### Variáveis de Ambiente
-
-| Variável                    | Descrição                         | Padrão             |
-| --------------------------- | --------------------------------- | ------------------ |
-| `ENVIRONMENT`               | Ambiente (development/production) | `development`      |
-| `DEBUG`                     | Modo debug                        | `True`             |
-| `SUPABASE_URL`              | URL do projeto Supabase           | -                  |
-| `SUPABASE_KEY`              | Chave anônima pública do Supabase | -                  |
-| `SUPABASE_SERVICE_ROLE_KEY` | Chave de service role do Supabase | -                  |
-| `SECRET_KEY`                | Chave secreta da aplicação        | -                  |
-| `UPLOAD_FOLDER`             | Pasta para upload de imagens      | `uploads/images`   |
-| `MAX_FILE_SIZE`             | Tamanho máximo de upload (bytes)  | `16777216` (16MB)  |
-| `PROJECT_NAME`              | Nome do projeto                   | `DoorGuardian API` |
-
-### Configurações de Imagem
-
-- **Formatos suportados**: PNG, JPG, JPEG, GIF, WEBP
-- **Tamanho máximo**: 16MB (configurável)
-- **Validação**: Verificação de tipo MIME e integridade da imagem
-- **Armazenamento**: Supabase Storage com nomes únicos (UUID)
-
-## 🛡️ Segurança
-
-- Validação de tipos de arquivo
-- Verificação de integridade de imagens
-- Sanitização de nomes de arquivos
-- Limitação de tamanho de upload
-- Tratamento seguro de erros
-- UUID para IDs únicos
-
-## 🚀 Deploy em Produção
-
-### 1. Configure as variáveis de ambiente para produção:
-
-```env
-ENVIRONMENT=production
-DEBUG=False
-SECRET_KEY=your-production-secret-key
-SUPABASE_URL=https://your-project.supabase.co
-SUPABASE_KEY=your-production-anon-key
-SUPABASE_SERVICE_ROLE_KEY=your-production-service-role-key
-```
-
-### 2. Use uvicorn em produção:
+### Executar Testes
 
 ```bash
-uvicorn app:app --host 0.0.0.0 --port 8000 --workers 4
+# Instalar dependências de teste
+pip install pytest pytest-asyncio httpx
+
+# Executar testes
+pytest
 ```
 
-### 3. Configure um proxy reverso (Nginx) e HTTPS
-
-### 4. O Supabase já fornece um banco PostgreSQL gerenciado na nuvem
-
-## 🧪 Desenvolvimento
-
-### Executar em modo desenvolvimento:
+### Linting e Formatação
 
 ```bash
-# Com uvicorn diretamente
-uvicorn app:app --host 0.0.0.0 --port 8000 --reload --log-level debug
+# Instalar ferramentas
+pip install black isort flake8
 
-# Ou com os scripts de conveniência
-./run_dev.sh       # Linux/Mac
-run_dev.bat        # Windows
+# Formatação
+black .
+isort .
+
+# Linting
+flake8 .
 ```
 
-### Gerenciamento do Banco:
+## 🐳 Deploy com Docker
 
-O Supabase gerencia automaticamente o banco PostgreSQL. Para mudanças no schema:
+```dockerfile
+FROM python:3.13-slim
 
-1. Edite o arquivo `database/schema.sql`
-2. Execute o SQL no painel do Supabase
-3. Ou use migrações via API do Supabase
+WORKDIR /app
 
-## 📝 Logs
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-A aplicação registra logs importantes incluindo:
+COPY . .
 
-- Erros de validação
-- Falhas de upload de imagem
-- Erros de banco de dados
-- Tentativas de acesso inválidas
+EXPOSE 8000
 
-## 🤝 Contribuindo
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+```
 
-1. Fork o projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/nova-feature`)
-3. Commit suas mudanças (`git commit -am 'Adiciona nova feature'`)
-4. Push para a branch (`git push origin feature/nova-feature`)
+```bash
+# Build
+docker build -t doorguardian-api .
+
+# Run
+docker run -p 8000:8000 --env-file .env doorguardian-api
+```
+
+## 🔒 Segurança
+
+- **Validação de Arquivos**: Múltiplas camadas de validação (extensão, MIME type, conteúdo)
+- **Sanitização**: Nomes de arquivo são sanitizados e UUIDs são usados
+- **Rate Limiting**: Implementar rate limiting em produção
+- **CORS**: Configuração adequada para origins permitidas
+- **Environment Variables**: Credenciais sensíveis em variáveis de ambiente
+
+## 📝 Contribuição
+
+1. Faça um fork do projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/nova-funcionalidade`)
+3. Commit suas mudanças (`git commit -am 'Adiciona nova funcionalidade'`)
+4. Push para a branch (`git push origin feature/nova-funcionalidade`)
 5. Abra um Pull Request
 
 ## 📄 Licença
 
-Este projeto está sob a licença MIT. Veja o arquivo LICENSE para detalhes.
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
-## 📞 Suporte
+## 👥 Autores
 
-Para dúvidas ou problemas, abra uma issue no repositório do projeto.
+- **Matheus Honório** - _Desenvolvedor Principal_ - [@mthonorio](https://github.com/mthonorio)
+
+## 🙏 Agradecimentos
+
+- [FastAPI](https://fastapi.tiangolo.com/) - Framework web moderno e rápido
+- [Supabase](https://supabase.com/) - Backend-as-a-Service
+- [Pydantic](https://pydantic-docs.helpmanual.io/) - Validação de dados
+- [Pillow](https://pillow.readthedocs.io/) - Processamento de imagens
+
+---
+
+⭐ **Se este projeto foi útil para você, considere dar uma estrela!** ⭐
