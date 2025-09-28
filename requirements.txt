@@ -1,0 +1,26 @@
+# FastAPI Dependencies
+fastapi
+uvicorn[standard]
+pydantic
+pydantic-settings
+python-multipart
+
+# Supabase and Database
+supabase
+postgrest
+gotrue
+realtime
+storage3
+
+# Utilities
+python-dotenv
+Pillow
+python-dateutil
+requests
+
+# Development
+pytest
+pytest-asyncio
+
+uvicorn
+fastapi
