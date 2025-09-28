@@ -13,7 +13,7 @@ CREATE INDEX IF NOT EXISTS idx_access_image_url ON access(image_url);
 -- This will populate the image_url for existing records that have images
 UPDATE access 
 SET image_url = CONCAT(
-    'https://hqglopazdwoeqdagmtom.supabase.co/storage/v1/object/public/images/', 
+    'https://<project-name>.supabase.co/storage/v1/object/public/images/', 
     images.file_path
 )
 FROM images 
@@ -28,7 +28,7 @@ BEGIN
     IF NEW.image_id IS NOT NULL THEN
         -- Get the image URL from the images table
         SELECT CONCAT(
-            'https://hqglopazdwoeqdagmtom.supabase.co/storage/v1/object/public/images/', 
+            'https://<project-name>.supabase.co/storage/v1/object/public/images/', 
             file_path
         )
         INTO NEW.image_url

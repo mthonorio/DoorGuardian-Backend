@@ -35,7 +35,7 @@ class Access(AccessBase):
                 "access": True,
                 "date": "2023-12-07T10:30:00Z",
                 "image_id": "789e0123-e89b-12d3-a456-426614174001",
-                "image_url": "https://hqglopazdwoeqdagmtom.supabase.co/storage/v1/object/public/images/access_images/uuid-name.jpg",
+                "image_url": "https://<project-name>.supabase.co/storage/v1/object/public/images/access_images/uuid-name.jpg",
                 "created_at": "2023-12-07T10:30:00Z",
                 "updated_at": "2023-12-07T10:30:00Z"
             }
