@@ -82,10 +82,6 @@ class ImageService:
             # Use service role client for uploads (now that we have the correct key)
             supabase = get_supabase_admin_client()
             
-            print(f"DEBUG: Attempting to upload to bucket 'images' at path: {file_path}")
-            print(f"DEBUG: File size: {len(file_content)} bytes")
-            print(f"DEBUG: MIME type: {mime_type}")
-            
             # Prepare file options with correct content-type
             file_options = {}
             if mime_type:
@@ -98,23 +94,16 @@ class ImageService:
                 file_options=file_options
             )
             
-            print(f"DEBUG: Upload result: {result}")
-            
             if hasattr(result, 'error') and result.error:
-                print(f"DEBUG: Upload error detected: {result.error}")
                 raise Exception(f"Storage upload error: {result.error}")
             
             # Get public URL
             public_url = supabase.storage.from_("images").get_public_url(file_path)
             
-            print(f"DEBUG: Successfully uploaded image to: {file_path}")
-            print(f"DEBUG: Public URL: {public_url}")
-            
             logger.info(f"Successfully uploaded image to: {file_path}")
             return public_url
             
         except Exception as e:
-            print(f"DEBUG: Exception during upload: {e}")
             logger.error(f"Error uploading to storage: {e}")
             raise Exception(f"Storage upload failed: {e}")
     

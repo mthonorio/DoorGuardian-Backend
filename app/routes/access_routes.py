@@ -84,9 +84,6 @@ async def register_access(
         # Handle image upload if present
         image_id = None
         if image and image.filename:
-            print(f"DEBUG: Original filename: {image.filename}")
-            print(f"DEBUG: Original content_type: {image.content_type}")
-            
             # Validate file type
             if not allowed_file(image.filename):
                 raise HTTPException(
@@ -99,9 +96,6 @@ async def register_access(
             
             # Get file info with content for better MIME type detection
             file_info = get_file_info_from_upload(image, len(file_content), file_content)
-            
-            print(f"DEBUG: Detected MIME type: {file_info['mime_type']}")
-            print(f"DEBUG: File size: {file_info['size']}")
             
             # Validate MIME type
             if not allowed_mime_type(file_info['mime_type']):

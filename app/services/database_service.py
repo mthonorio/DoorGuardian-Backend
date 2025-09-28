@@ -19,8 +19,8 @@ class AccessService:
     ) -> Dict[str, Any]:
         """Get paginated access history with filtering"""
         
-        # Get Supabase client
-        supabase = get_supabase_client()
+        # Use service role client to bypass RLS
+        supabase = get_supabase_admin_client()
         
         # Calculate offset for pagination
         offset = (page - 1) * per_page
@@ -102,7 +102,8 @@ class AccessService:
         supabase = get_supabase_admin_client()
         
         # Insert access record following Supabase pattern
-        response = (
+        # The trigger will automatically populate image_url if image_id is provided
+        insert_response = (
             supabase.table("access")
             .insert({
                 "access": access_data.access,
@@ -114,23 +115,30 @@ class AccessService:
             .execute()
         )
         
-        if not response.data:
+        if not insert_response.data:
             raise Exception("Failed to create access record")
+        
+        created_record = insert_response.data[0]
+        
+        # Now fetch the complete record with image data and image_url populated by trigger
+        response = (
+            supabase.table("access")
+            .select("*, images(*)")
+            .eq("id", created_record["id"])
+            .execute()
+        )
+        
+        if not response.data:
+            raise Exception("Failed to fetch created access record")
         
         access_record = response.data[0]
         
-        # Get associated image if exists
+        # Extract image data if present
         image_data = None
-        if access_record.get('image_id'):
-            image_response = (
-                supabase.table("images")
-                .select("*")
-                .eq("id", access_record['image_id'])
-                .execute()
-            )
-            
-            if image_response.data:
-                image_data = Image(**image_response.data[0])
+        if access_record.get('images'):
+            image_data = Image(**access_record['images'])
+            # Remove the nested images data to avoid conflicts
+            access_record.pop('images', None)
         
         # Create AccessWithImage instance
         result = AccessWithImage(**access_record)

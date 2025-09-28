@@ -23,6 +23,7 @@ class Access(AccessBase):
     """Complete Access model with database fields"""
     id: str = Field(default_factory=lambda: str(uuid.uuid4()), description="Unique identifier")
     image_id: Optional[str] = Field(None, description="Associated image ID")
+    image_url: Optional[str] = Field(None, description="Public URL of the associated image")
     created_at: datetime = Field(default_factory=datetime.utcnow, description="Creation timestamp")
     updated_at: datetime = Field(default_factory=datetime.utcnow, description="Last update timestamp")
     
@@ -34,6 +35,7 @@ class Access(AccessBase):
                 "access": True,
                 "date": "2023-12-07T10:30:00Z",
                 "image_id": "789e0123-e89b-12d3-a456-426614174001",
+                "image_url": "https://hqglopazdwoeqdagmtom.supabase.co/storage/v1/object/public/images/access_images/uuid-name.jpg",
                 "created_at": "2023-12-07T10:30:00Z",
                 "updated_at": "2023-12-07T10:30:00Z"
             }
